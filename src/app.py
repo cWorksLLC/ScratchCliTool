@@ -1,33 +1,38 @@
-# ScratchCliTool | v1.0.0
-# Made by Letter C (cWorksLLC)
-import scratchattach as sa
+# ScratchCliTool | v1.0.2
+# Made by Letter C (cWorksLLC) and Webbrowser11 (T_cat9000_2)
+import scratchattach as sa # Scratchattach; Help: https://github.com/TimMcCool/scratchattach
 import maskpass
 import webbrowser
 import time
-# importing needed libaries
 
-username = input("what is your username?: ")
-password = maskpass.askpass(prompt="what is your password?: ", mask="*")
-project = input("what project you want to connect to? (use project id, optional): ")
+username = input("Enter your username: ")
+password = maskpass.askpass(prompt="Enter your password?: ", mask="*")
+project = input("What project you want to connect to use id: ")
 # getting user input ↑ | applying user input ↓
-print("logging in to user...")
-session = sa.login(username, password)
-print("connecting to cloud project...")
-cloud = session.connect_cloud(project)
-# connection script
+try:
+	print("Logging you in...")
+	session = sa.login(username, password)
+Except Exception as e:
+	print(f"An error occured while logging you in: {e}")
+
+try:
+	print("Connecting to the cloud...")
+	cloud = session.connect_cloud(project)
+Except Exception as e:
+	print(f"An error occured while connecting to the cloud: {e}")
 
 if session.banned == True:
-	print("the account you logged in to was banned. closing in 2 seconds")
+	print("The account you logged into was banned. Closing in 2 seconds.")
 	time.sleep(2)
 	exit()
 
 if session.new_scratcher == True:
-	print("the account you logged in is a new scratcher, so cloud features won't work.")
+	print("The account you logged in is a new scratcher, so cloud features won't work.")
 
-print(f"hello, {username}.")
+print(f"Hello, {username}.")
 print("="*75)
-print("type 'cmds' for a list of commands.")
-print("type 'help' for a guide.")
+print("Type 'cmds' for a list of commands.")
+print("Type 'help' for a guide.")
 print("="*75)
 # welcoming script
 
@@ -35,8 +40,8 @@ while True:
 	cmd = input(f"{username}/{project}>")
 
 	if cmd == "cmds":
-		print("UTILITY COMMANDS:")
-		print("cmds - self-explanatory (opens this menu)")
+		print("COMMANDS:")
+		print("cmds - opens this menu")
 		print("help - opens a placeholder URL for a guide")
 		print("sessionID - returns the SessionID ")
 		print("cproj - changed current project connection")
@@ -53,49 +58,47 @@ while True:
 		print("love - loves a project")
 		print("favorite - favorites a project")
 	elif cmd == "help":
-		webbrowser.open("https://scratch.mit.edu")
+		webbrowser.open("https://en.scratch-wiki.info/wiki/Cloud_Data")
 	elif cmd == "sessionID":
 		print(session.id)
 	elif cmd == "cproj":
-		project = input("what project you want to connect to? (use project id): ")
-		print("connecting to cloud project...")
+		project = input("What project you want to connect to? (use project id): ")
+		print("Connecting to the cloud...")
 		cloud = session.connect_cloud(project)
 	elif cmd == "exit":
 		break
 	elif cmd == "openprj":
-		prj = input("what is the project id? ")
+		prj = input("Enter the project id: ")
 		webbrowser.open(f"https://scratch.mit.edu/projects/{prj}/embed")
 	elif cmd == "setVariable":
-		name = input("what variable to set? ")
-		value = input("what is the value? ")
+		name = input("Variable to set? ")
+		value = input("Enter value: ")
 		cloud.set_var(name, value)
 	elif cmd == "getVariable":
-		name = input("what is the variable's name?")
+		name = input("What is the variable's name?")
 		cloud.get_var(name)
 	elif cmd == "mesCount":
 		user = session.connect_linked_user()
 		print(user.message_count())
 	elif cmd == "comment":
-		prj = input("what is the project id? ")
-		content = input("what are the comment's contents? ")
+		prj = input("Please provide the project id: ")
+		content = input("Enter the comment content: ")
 		projectcon = session.connect_project(prj)		
 		comment = projectcon.post_comment(content)
 	elif cmd == "follow":
-		user = input("who do you need to follow? ")
+		user = input("Enter username of the person you wish to follow: ")
 		usercon = session.connect_user(user)
 		usercon.follow()
 	elif cmd == "love":
-		prj = input("what is the project id? ")
+		prj = input("Please provide the project id: ")
 		projectcon = session.connect_project(prj)
 		projectcon.love()
 	elif cmd == "favorite":
-		prj = input("what is the project id? ")
+		prj = input("Please provide the project id: ")
 		projectcon = session.connect_project(prj)
 		projectcon.favorite()
 	else:
-		print("not a valid command.")
+		print("Not a valid command.")
 
 	user = session.connect_linked_user()
 	user.update() # update the user's stats everytime a command is ran
-
-# command line script
