@@ -1,4 +1,4 @@
-# ScratchCliTool | v1.0.2
+# ScratchCliTool | v1.1.0
 # Made by Letter C (cWorksLLC) and Webbrowser11 (T_cat9000_2)
 import scratchattach as sa # Scratchattach; Help: https://github.com/TimMcCool/scratchattach
 import maskpass
@@ -6,7 +6,7 @@ import webbrowser
 import time
 
 username = input("Enter your username: ")
-password = maskpass.askpass(prompt="Enter your password?: ", mask="*")
+password = maskpass.askpass(prompt="Enter your password?: ", mask="●")
 project = input("What project you want to connect to use id: ")
 # getting user input ↑ | applying user input ↓
 try:
@@ -57,6 +57,8 @@ while True:
 		print("follow - follows a user")
 		print("love - loves a project")
 		print("favorite - favorites a project")
+		print("unlove - unloves a project")
+		print("unfavorite - unfavorites a project")
 	elif cmd == "help":
 		webbrowser.open("https://en.scratch-wiki.info/wiki/Cloud_Data")
 	elif cmd == "sessionID":
@@ -97,6 +99,14 @@ while True:
 		prj = input("Please provide the project id: ")
 		projectcon = session.connect_project(prj)
 		projectcon.favorite()
+	elif cmd == "unlove":
+		prj = input("Please provide the project id: ")
+		projectcon = session.connect_project(prj)
+		projectcon.unlove()
+	elif cmd == "unfavorite":
+		prj = input("Please provide the project id: ")
+		projectcon = session.connect_project(prj)
+		projectcon.unfavorite()
 	else:
 		print("Not a valid command.")
 
