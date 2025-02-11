@@ -12,13 +12,13 @@ project = input("What project you want to connect to use id: ")
 try:
 	print("Logging you in...")
 	session = sa.login(username, password)
-Except Exception as e:
+except Exception as e:
 	print(f"An error occured while logging you in: {e}")
 
 try:
 	print("Connecting to the cloud...")
 	cloud = session.connect_cloud(project)
-Except Exception as e:
+except Exception as e:
 	print(f"An error occured while connecting to the cloud: {e}")
 
 if session.banned == True:
